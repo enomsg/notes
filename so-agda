@@ -1,34 +1,3 @@
-### Using Agda in NixOS shell
-
-[agda.nix](agda.nix)
-
-```nix
-{ nixpkgs ? import <nixpkgs> {} }:
-
-with nixpkgs;
-
-let
-  ghc   = pkgs.haskellPackages.ghcWithPackages
-            (p: with p; [ ieee754 ]);
-  emacs = pkgs.emacsWithPackages
-            (p: with p; [ use-package evil agda2-mode company
-                          rainbow-delimiters ]);
-  der   = agda.mkDerivation(self: {
-    name         = "AgdaEnv";
-    buildDepends = [ pkgs.AgdaStdlib ghc emacs ];
-  });
-in der.env
-```
-
-```
-$ nix-shell agda.nix
-```
-
-### Using Agda in Docker
-
-[~/bin/so-agda](env-agda)
-
-```bash
 #!/usr/bin/env bash
 set -e
 
@@ -97,9 +66,3 @@ docker run \
     -v "$PWD":/home/user/cwd \
     -w /home/user/cwd \
     -it "$tag" "$@"
-```
-
-```
-$ chmod +x ~/bin/so-agda
-$ so-agda
-```
